@@ -1,0 +1,212 @@
+
+Tutorial API REST Node + Express + MySQL
+========================================
+
+- Create a specific folder for the project
+
+  $ mkdir <project-name>
+  $ cd <project-name>
+
+- Create basic package.json
+
+  $ npm init -y
+
+- Install Express
+
+  $ npm i --save -E express@4.17.1
+
+- Install Body Parser
+
+  $ npm i --save -E body-parser@1.19.0
+
+- Install Node RESTful
+
+  $ npm i --save -E node-restful@0.2.6
+
+- Install PM2
+
+  $ npm i --save -E pm2@4.5.4
+
+- Install Nodemon
+
+  $ npm i --save-dev -E nodemon@2.0.7
+
+- Create the file .gitignore
+
+  /node_modules
+  package-lock.json
+
+- Define environments
+
+  Change the package.json ...
+
+  {
+    "name": "APICitiesNodejs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "body-parser": "1.19.0",
+      "express": "4.17.1",
+      "pm2": "4.5.4"
+    },
+    "devDependencies": {
+      "nodemon": "2.0.7"
+    }
+  }
+
+  ... to
+
+  {
+    "name": "APICitiesNodejs",
+    "version": "1.0.0",
+    "description": "API to provide data about cities.",
+    "main": "src/api/StartApplication.js",
+    "scripts": {
+      "dev": "nodemon",  
+      "prod": "pm2 start src/api/StartApplication.js --name APICitiesNodejs"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "body-parser": "1.19.0",
+      "express": "4.17.1",
+      "pm2": "4.5.4"
+    },
+    "devDependencies": {
+      "nodemon": "2.0.7"
+    }
+  }
+
+- Create config file for Express
+
+  $ mkdir src
+  $ cd src
+  $ mkdir api
+  $ cd api
+  $ mkdir config
+  $ cd config
+  $ touch express.js
+  
+  Add the following content in the express.js
+
+    const port = 8282
+
+    const bodyParser = require('body-parser')
+    const express = require('express')
+    const server = express()
+
+    server.use(bodyParser.urlencoded({ extended: true }))
+    server.use(bodyParser.json())
+
+    server.listen(port, function() {
+      console.log(`Server is running on port ${port}.`)
+    })
+
+    module.exports = server
+
+- Create loader file for Express
+
+  $ cd ..
+  $ touch StartApplication.js
+  
+  Add the following content in the StartApplication.js
+
+    const server = require('./config/express')
+
+- Checking the configuration
+
+  $ cd APICitiesNodejs
+
+  $ npm run dev
+
+  Tip: Ctrl+c to finish Server
+
+- Create the Service
+
+  $ mkdir service
+  $ cd service
+  $ touch CityService.js
+
+  Add the following content in the CitiesService.js
+
+    exports.getCityData = function(req, res) {
+      var id = req.params.id;  
+
+      const cityData = { 'id': id, 'idstate':'PR', 'name':'Curitiba' }
+      res.status(200).json(cityData);
+    }
+
+- Create the Controller
+
+  $ cd ..
+  $ mkdir controller
+  $ cd controller
+  $ touch CityController.js
+
+  Add the following content in the CitiesController.js
+
+    module.exports = function(app) {
+      const service = require('../service/CityService')
+
+      app.route('/cities/:id').get(service.getCityData);
+    }
+
+- Enable the API
+
+  Add the following line in express.js
+
+  ...
+  require('../controller/CityController')(server);
+  module.exports = server
+
+- Checking the route
+
+  $ cd APICitiesNodejs
+
+  $ npm run dev
+
+  http://localhost:8282/cities/2233
+
+- Add MySQL dependencies
+
+  $ npm i --save -E mysql2@2.2.5
+  $ npm i --save -E knex@0.21.17
+
+- Add database configuration in 'config/database.js'
+
+  var knex = require('knex')({
+    client: 'mysql2',
+    connection: {
+      host: 'localhost',
+      port: 3306,
+      user: 'root',
+      password: 'root',
+      database: 'cities'
+    }
+  });
+
+  module.exports = knex
+
+- Change the service as below
+
+  const database = require('../config/database.js')
+
+  exports.getCityData = function(req, res) {
+    var id = req.params.id;
+
+    database.select('*').table('cities').where({id:id}).then(city => {
+      res.status(200).json(city)
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
+

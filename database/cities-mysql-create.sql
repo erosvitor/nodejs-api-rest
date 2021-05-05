@@ -1,0 +1,21 @@
+
+CREATE SCHEMA cities DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+
+USE cities;
+
+CREATE TABLE states
+(
+  id CHAR(2) NOT NULL,
+  name VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE cities
+(
+  id INT(5) NOT NULL,
+  idstate CHAR(2) NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_cities_states FOREIGN KEY (idstate) REFERENCES states (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
