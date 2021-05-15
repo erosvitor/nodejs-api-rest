@@ -6,10 +6,10 @@ O **NodejsMySQLRestAPI** é um projeto exemplo que mostra como criar uma API RES
 ## Tecnologias utilizadas
 O projeto utiliza as seguintes tecnologias:
 
-* Node.js 14.15.4
-* Express 4.17.1
-* MySQL Database 5.7.33
-* Knex 0.21.17
+* Node.js
+* Express
+* MySQL Server
+* Knex
 
 ## Banco de dados
 O banco de dados utilizado pelo projeto é constituído de apenas uma tabela chamada Cities.
