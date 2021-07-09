@@ -1,7 +1,7 @@
 # NodejsMySQLRestAPI
 
 ## Descrição
-O **NodejsMySQLRestAPI** é um projeto exemplo que mostra como criar uma API REST usando Node.js e o banco de dados MySQL.
+Projeto exemplo que mostra como criar uma API REST usando Node.js e o banco de dados MySQL.
 
 ## Tecnologias utilizadas
 O projeto utiliza as seguintes tecnologias:
