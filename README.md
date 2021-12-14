@@ -2,15 +2,12 @@
 O projeto mostra como criar uma API REST usando Node.js e o banco de dados MySQL.
 
 ## Tecnologias
-As seguintes ferramentas foram utilizadas neste projeto:
+As seguintes tecnologias foram utilizadas neste projeto:
 
 * [Node.js](https://nodejs.org/en/)
 * [Express](https://expressjs.com)
 * [MySQL](https://www.mysql.com/)
 * [Knex](https://knexjs.org/)
-
-## Requisitos
-Antes de iniciar você precisar ter o Git, Node.js e o MySQL instalados.
 
 ## Iniciando o projeto
 
@@ -46,8 +43,3 @@ http://localhost:8282/cities/id-cidade
 
 ## Licença
 Este projeto está sob licença do MIT. Para mais detalhes, ver o arquivo LICENSE.
-
-## Histórico de lançamentos
-
-* 1.0.0 (2021-02-22)
-    * Primeira versão
